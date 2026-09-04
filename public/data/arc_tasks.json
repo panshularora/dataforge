@@ -1,0 +1,71 @@
+{
+  "_source": "ARC-AGI benchmark style tasks. Inspired by Chollet (2019) 'On the Measure of Intelligence'.",
+  "_note": "These are illustrative tasks in the ARC-AGI format for educational demonstration. Model predictions are precomputed from BDH-CQ reported behavior.",
+  "tasks": [
+    {
+      "id": "task_color_mirror",
+      "name": "Color Mirror",
+      "description": "The output is a horizontal mirror of the input grid.",
+      "difficulty": "easy",
+      "demonstrations": [
+        {
+          "input":  [[1,2,3],[4,5,6],[7,8,9]],
+          "output": [[3,2,1],[6,5,4],[9,8,7]]
+        },
+        {
+          "input":  [[0,1,0],[1,0,1],[0,1,0]],
+          "output": [[0,1,0],[1,0,1],[0,1,0]]
+        }
+      ],
+      "test_input": [[2,0,1],[0,2,0],[1,0,2]],
+      "ground_truth": [[1,0,2],[0,2,0],[2,0,1]],
+      "predictions": {
+        "low":    { "output": [[0,0,2],[0,2,0],[2,0,0]], "correct": false },
+        "medium": { "output": [[1,0,2],[0,2,0],[2,0,1]], "correct": true },
+        "high":   { "output": [[1,0,2],[0,2,0],[2,0,1]], "correct": true }
+      }
+    },
+    {
+      "id": "task_fill_border",
+      "name": "Border Fill",
+      "description": "Fill the border cells of the grid with color 3, leave interior unchanged.",
+      "difficulty": "medium",
+      "demonstrations": [
+        {
+          "input":  [[0,0,0,0],[0,1,2,0],[0,3,1,0],[0,0,0,0]],
+          "output": [[3,3,3,3],[3,1,2,3],[3,3,1,3],[3,3,3,3]]
+        }
+      ],
+      "test_input": [[0,0,0,0,0],[0,1,0,2,0],[0,0,1,0,0],[0,2,0,1,0],[0,0,0,0,0]],
+      "ground_truth": [[3,3,3,3,3],[3,1,0,2,3],[3,0,1,0,3],[3,2,0,1,3],[3,3,3,3,3]],
+      "predictions": {
+        "low":    { "output": [[3,3,3,3,3],[3,0,0,0,3],[3,0,0,0,3],[3,0,0,0,3],[3,3,3,3,3]], "correct": false },
+        "medium": { "output": [[3,3,3,3,3],[3,1,0,2,3],[3,0,1,0,3],[3,2,0,1,3],[3,3,3,3,3]], "correct": true },
+        "high":   { "output": [[3,3,3,3,3],[3,1,0,2,3],[3,0,1,0,3],[3,2,0,1,3],[3,3,3,3,3]], "correct": true }
+      }
+    },
+    {
+      "id": "task_gravity",
+      "name": "Gravity",
+      "description": "Non-zero cells fall to the bottom of each column.",
+      "difficulty": "hard",
+      "demonstrations": [
+        {
+          "input":  [[1,0,2],[0,1,0],[0,0,1]],
+          "output": [[0,0,0],[0,0,2],[1,1,1]]
+        },
+        {
+          "input":  [[0,2,0],[1,0,0],[0,1,2]],
+          "output": [[0,0,0],[0,2,0],[1,1,2]]
+        }
+      ],
+      "test_input": [[2,0,1,0],[0,1,0,2],[0,0,1,0],[1,0,0,1]],
+      "ground_truth": [[0,0,0,0],[0,0,0,0],[2,0,1,2],[1,1,1,1]],
+      "predictions": {
+        "low":    { "output": [[0,0,0,0],[0,1,0,0],[2,0,1,2],[1,0,1,1]], "correct": false },
+        "medium": { "output": [[0,0,0,0],[0,0,0,0],[2,0,1,2],[1,1,1,1]], "correct": true },
+        "high":   { "output": [[0,0,0,0],[0,0,0,0],[2,0,1,2],[1,1,1,1]], "correct": true }
+      }
+    }
+  ]
+}

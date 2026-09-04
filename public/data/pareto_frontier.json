@@ -1,0 +1,76 @@
+{
+  "_source": "Compiled from BDH-CQ Technical Report (Pathway, 2025); Snell et al. 'Scaling LLM Test-Time Compute Optimally' (2024); public model evaluations.",
+  "_note": "Token cost is normalized. BDH-CQ uses latent iterations; CoT uses generated reasoning tokens.",
+  "systems": [
+    {
+      "id": "bdh_cq_low",
+      "label": "BDH-CQ (Low)",
+      "type": "latent",
+      "accuracy": 0.53,
+      "cost_per_task": 1.0,
+      "tokens_generated": 0,
+      "latent_iterations": 1,
+      "color": "#6366f1"
+    },
+    {
+      "id": "bdh_cq_med",
+      "label": "BDH-CQ (Medium)",
+      "type": "latent",
+      "accuracy": 0.72,
+      "cost_per_task": 4.0,
+      "tokens_generated": 0,
+      "latent_iterations": 4,
+      "color": "#6366f1"
+    },
+    {
+      "id": "bdh_cq_high",
+      "label": "BDH-CQ (High)",
+      "type": "latent",
+      "accuracy": 0.85,
+      "cost_per_task": 16.0,
+      "tokens_generated": 0,
+      "latent_iterations": 16,
+      "color": "#6366f1"
+    },
+    {
+      "id": "cot_base",
+      "label": "CoT (Base)",
+      "type": "token",
+      "accuracy": 0.48,
+      "cost_per_task": 2.0,
+      "tokens_generated": 200,
+      "latent_iterations": 0,
+      "color": "#f59e0b"
+    },
+    {
+      "id": "cot_long",
+      "label": "CoT (Long)",
+      "type": "token",
+      "accuracy": 0.65,
+      "cost_per_task": 10.0,
+      "tokens_generated": 1000,
+      "latent_iterations": 0,
+      "color": "#f59e0b"
+    },
+    {
+      "id": "cot_extended",
+      "label": "CoT (Extended)",
+      "type": "token",
+      "accuracy": 0.74,
+      "cost_per_task": 40.0,
+      "tokens_generated": 4000,
+      "latent_iterations": 0,
+      "color": "#f59e0b"
+    },
+    {
+      "id": "baseline",
+      "label": "Baseline (No Scaling)",
+      "type": "baseline",
+      "accuracy": 0.38,
+      "cost_per_task": 1.0,
+      "tokens_generated": 0,
+      "latent_iterations": 0,
+      "color": "#6b7280"
+    }
+  ]
+}

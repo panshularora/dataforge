@@ -1,0 +1,43 @@
+{
+  "_source": "Dragon Hatchling paper (Pathway, 2025). Reported: ~5% sparsity, non-negative activations, monosemantic synapses.",
+  "sparsity": {
+    "active_fraction": 0.05,
+    "description": "Roughly 5% of neurons are active at any moment. Activity varies with input predictability — not a fixed budget.",
+    "note": "Precomputed. Values are illustrative of reported BDH behavior."
+  },
+  "neuron_grid": {
+    "rows": 20,
+    "cols": 20,
+    "total": 400,
+    "active_count": 20,
+    "description": "A 20×20 grid representing 400 neurons. ~20 are active (5%). Click to see what concept each active neuron encodes."
+  },
+  "sample_active_neurons": [
+    { "id": 12,  "row": 0, "col": 12, "concept": "subject–verb agreement", "activation": 0.87 },
+    { "id": 35,  "row": 1, "col": 15, "concept": "spatial: left-of",         "activation": 0.72 },
+    { "id": 67,  "row": 3, "col": 7,  "concept": "number: quantity-3",       "activation": 0.91 },
+    { "id": 98,  "row": 4, "col": 18, "concept": "color: blue",              "activation": 0.65 },
+    { "id": 120, "row": 6, "col": 0,  "concept": "verb tense: past",         "activation": 0.78 },
+    { "id": 145, "row": 7, "col": 5,  "concept": "negation",                 "activation": 0.83 },
+    { "id": 178, "row": 8, "col": 18, "concept": "spatial: above",           "activation": 0.69 },
+    { "id": 203, "row": 10,"col": 3,  "concept": "parity: odd",              "activation": 0.94 },
+    { "id": 234, "row": 11,"col": 14, "concept": "entity: person",           "activation": 0.71 },
+    { "id": 267, "row": 13,"col": 7,  "concept": "mirror symmetry",          "activation": 0.88 },
+    { "id": 290, "row": 14,"col": 10, "concept": "sequence: ascending",      "activation": 0.76 },
+    { "id": 312, "row": 15,"col": 12, "concept": "color: red",               "activation": 0.62 },
+    { "id": 334, "row": 16,"col": 14, "concept": "quantity comparison",      "activation": 0.85 },
+    { "id": 356, "row": 17,"col": 16, "concept": "spatial: inside",         "activation": 0.79 },
+    { "id": 378, "row": 18,"col": 18, "concept": "repetition pattern",       "activation": 0.93 },
+    { "id": 390, "row": 19,"col": 10, "concept": "border detection",         "activation": 0.66 },
+    { "id": 23,  "row": 1,  "col": 3, "concept": "logical: AND",             "activation": 0.74 },
+    { "id": 56,  "row": 2,  "col": 16,"concept": "spatial: right-of",        "activation": 0.81 },
+    { "id": 189, "row": 9,  "col": 9, "concept": "gravity / falling",        "activation": 0.70 },
+    { "id": 245, "row": 12, "col": 5, "concept": "count: equals-2",          "activation": 0.77 }
+  ],
+  "synaptic_memory": {
+    "description": "In BDH, attention is reformulated as synaptic memory. The weight matrix W_syn is updated during inference via a Hebbian-style write: ΔW = η · v · kᵀ, where k is the key (query pattern) and v is the value to associate. Reading is: output = W_syn · q (query).",
+    "equation_write": "W_{t+1} = W_t + η · v_t · k_t^T",
+    "equation_read":  "output_t = W_t · q_t",
+    "contrast_with_transformer": "In a Transformer, the KV cache grows linearly with sequence length. In BDH, the synaptic weight matrix W_syn has fixed size — it compresses the entire context into one matrix through superposition."
+  }
+}
