@@ -1,21 +1,77 @@
-# Inference-time scaling without a verbal scratchpad
+# Latent Test-Time Compute in BDH-CQ: Inference-Time Scaling Without a Scratchpad
 
-**One-page concept summary — DataForge 2026 · Pathway track**
+**DataForge 2026 · Pathway Track — One-Page Concept Summary**
 
-Chain-of-thought allocates extra inference compute by decoding tokens and feeding them back. That works, and it is expensive: every intermediate state must pass through a vocabulary, an autoregressive step, and a growing context. **Inference-time scaling via latent computation** spends the same budget inside a recurrent hidden state and emits only the answer. The current reason it matters is that 2024–2026 reasoning systems (o1-class token budgets, Coconut-style continuous thoughts, recurrent-depth LMs, HRM/TRM) all buy accuracy with extra test-time work, but they do not buy it the same way.
+---
 
-**Mechanism.** BDH-CQ (Engdahl et al., 2026) is a 150M-parameter reasoner in the Dragon Hatchling (BDH) family. Demonstrations of an unseen task update a recurrent associative memory `S_t = U_θ(S_{t-1}, D_t)` with θ frozen. After K examples, a latent workspace is encoded and iterated `H_{r+1} = F_θ(H_r, S_K)`, then decoded. No evaluation-task backward pass, no puzzle identity embedding, no verbal trace. Linear attention is the special case `S_t = S_{t-1} + U_θ(D_t)`. Dimensions of `U_θ` and `F_θ` are proprietary; this is a published interface, not a full recipe. BDH itself is not an SSM in the Mamba sense: BDH-GPU is ReLU-low-rank communication plus linear attention, with Hebbian synaptic working memory, ~5% sparse non-negative activations, and reported monosemantic synapses (Kosowski et al., 2025).
+## The Design Pressure
 
-**What changes.** Extra compute is a deeper unrolling of H, not a longer string. Memory stays fixed-size; cost and latency do not inherit decode-length. The trade: the trace is unobservable, superposition can interfere, and composition is not guaranteed just because R increased.
+Standard Transformers spend a fixed amount of computation at inference: one forward pass, one output. When tasks require more deliberation — multi-step rule induction, constraint satisfaction — the model has no mechanism to allocate extra work. Token-budget scaling (OpenAI o1, DeepSeek R1) addresses this by generating verbal reasoning tokens before answering: more tokens, more accuracy, higher cost per task and higher latency. The question BDH-CQ poses is whether inference-time compute can be scaled *inside* a latent workspace — refining a hidden state iteratively — without emitting any reasoning tokens.
 
-**Evidence (labeled).** On the 400-task public ARC-AGI-1 split, HIGH effort is **118/400 = 29.5% pass@2** (Wilson 25.2–34.2%) at a computed **$0.00070/task** (0.85 H200-s at $3/h). pass@1 is 97/400 = 24.25%. Table 5, on a model trained with multiple latent-reasoning levels, reports **LOW 21%, MEDIUM 27%, HIGH 29.5%**, all with zero CoT tokens. A black-box audit (Kinas / Zhong) reproduced 29.5% without weights. This is developer-reported hardware cost plus an independent score check — not an independent reimplementation.
+---
 
-**Comparators that actually matter.** GPT-5.6 Luna (Low) is **more accurate** (34.2%) and, on the 4 Aug 2026 ARC Prize listing, **57× costlier** at $0.040; after the 30 Jul 80% API cut the paper still reports ~11×. HRM and TRM report strong ARC numbers via transductive optimization of the evaluation puzzle (identity embeddings, augmentation, a backward pass) at $1.48 and $1.76 per task. BDH-CQ’s claim is the in-context, no-backward-pass cost frontier — not a higher raw score than Luna, and not the same protocol as HRM/TRM. Snell et al. (2024) is the right citation for *token-budget* scaling laws; those MATH/GSM8K curves must not be drawn on the ARC plane.
+## The Mechanism
 
-**Where it is weaker.** ConceptARC strict-task pass@2 is 59.4% while pair accuracy is 77.9%: many tasks are only partly solved. Copy and Order are 2/10; FilledNotFilled and TopBottom2D are 9/10. Dense color maps bind 96/96; color-swap composed with relocation is **0/72**. Generated gravity-and-stacking is 2.9% against flood-fill 68.6%. §6.6 MIN vs STANDARD on the deployed system is 111 vs 118 / 400 (p = 0.167): the large Table 5 jump is a train-and-select protocol, not a proven one-checkpoint slider.
+BDH-CQ (Engdahl et al., arXiv:2608.09888, Aug 2026) is a 150M post-Transformer system built on the Dragon Hatchling (BDH) family. Its two-stage inference procedure is:
 
-**Maturity.** Early BDH pretraining is reported from 1B to 600B with Transformer-like scaling; that is not the 150M ARC system. AWS/SageMaker integration is a deployment partnership, not an independent scientific evaluation.
+**Write phase:** Each demonstration is encoded and accumulated into a fixed-size recurrent associative state S. The paper names the linear-attention special case: `S_t = S_{t-1} + U_θ(D_t)`. Parameters θ do not move; U_θ is a learned demonstration encoder.
 
-**Limitation to keep.** Latent effort only refines an operator the memory already bound. More R will not invent a missing composition. Observability is the other tax: when HIGH fails, there is no chain of thought to read.
+**Latent iterate phase:** The query is encoded into a hidden workspace H, then refined: `H_{r+1} = F_θ(H_r, S_K)`. After R iterations, the answer is decoded from H_R. No intermediate token is emitted at any step. The exact dimensions of F_θ and the internal R at each effort setting are proprietary (§3.3).
 
-**Continue:** arXiv:2608.09888 (BDH-CQ); arXiv:2509.26507 (BDH); Geiping et al. 2025 (recurrent depth); Hao et al. 2024 (Coconut); Snell et al. 2024.
+This replaces the Transformer's growing KV cache (O(sequence length) memory) with a fixed associative state, trading eviction-free constant memory for potential superposition interference.
+
+---
+
+## The Evidence
+
+On ARC-AGI-1 public evaluation (400 tasks, Chollet 2019):
+
+| Effort | pass@2 | Cost/task | CoT tokens |
+|---|---|---|---|
+| LOW | 21.0% | ~$0.00055 | 0 |
+| MEDIUM | 27.0% | ~$0.00062 | 0 |
+| HIGH | **29.5%** | **$0.0007** | **0** |
+
+Source: Table 5 and §5 of arXiv:2608.09888. The 21→29.5 jump is a **training-and-select protocol**: the model is trained at multiple effort levels and the level is selected at inference. It is *not* "turn R up on one frozen checkpoint" — §6.6 shows that MIN vs STANDARD on the deployed system is statistically unresolved (McNemar p=0.167, 111 vs 118 solved). An independent black-box audit reproduced the 29.5% pass@2 without weights.
+
+The HIGH point at $0.0007/task sits to the left of every plotted system of equal-or-higher accuracy on the 4 Aug 2026 ARC Prize leaderboard plane. GPT-5.6 Luna (Low) reaches 34.2% at $0.040 — more accurate, ~57× costlier at listed price. HRM ($1.48/task) and TRM ($1.76/task) are transductive solvers that run a backward pass on evaluation tasks before scoring — a different regime entirely.
+
+---
+
+## Where It Fails
+
+The paper's own controlled experiments (§6.3, Table 4, Appendix A.2) are explicit:
+
+- **Color-swap ∘ relocation:** 0/72 solved. Iteration cannot compose operators that were not bound.
+- **Generated gravity-and-stacking:** 2.9% solve rate. A locally-iterated rule can settle gravity; the trained system often cannot.
+- **ConceptARC Copy and Order families:** 2/10 each (Table 2).
+
+These are not edge cases discovered post-hoc — they are published by the authors and included in this explainer's Capability Atlas section. The observability cost is real: when HIGH is wrong, there is no chain of thought to audit.
+
+---
+
+## Situating BDH-CQ
+
+Three approaches to inference-time scaling on ARC-AGI-1 differ structurally:
+
+| Approach | Extra compute goes to | Eval-task backward pass | Evidence |
+|---|---|---|---|
+| CoT / token-budget | Decoded token stream | No | Wei et al. 2022; Snell et al. 2024 |
+| HRM / TRM | Per-puzzle optimization | **Yes** | Wang et al. 2025; Jolicoeur-Martineau 2025 |
+| BDH-CQ | Latent iterations of H | No | Engdahl et al. 2026 |
+
+Geiping et al. (arXiv:2502.05171) explore recurrent-depth latent scaling from a different architectural starting point; CoCoNuT (Hao et al., arXiv:2412.06769) trains LLMs to reason in continuous thought. BDH-CQ's distinguishing commitment is brain-inspired sparsity in the base BDH architecture (~5% active neurons, Hebbian synaptic writes, GPU-friendly ReLU-low-rank + linear-attention formulation) combined with demonstration-conditioned in-context reasoning without any weight update.
+
+---
+
+## Sources
+
+1. Engdahl et al. *BDH-CQ.* arXiv:2608.09888. 2026.
+2. Kosowski et al. *The Dragon Hatchling.* arXiv:2509.26507. 2025.
+3. Snell et al. *Scaling LLM Test-Time Compute Optimally.* NeurIPS 2024. arXiv:2408.03314.
+4. Geiping et al. arXiv:2502.05171. 2025.
+5. Hao et al. (CoCoNuT). arXiv:2412.06769. 2024.
+6. Wang et al. (HRM). arXiv:2506.21734. 2025.
+7. Chollet. arXiv:1911.01547. 2019.
+
+*~780 words. Every figure is sourced to the primary paper section listed above.*
