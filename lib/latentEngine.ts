@@ -37,6 +37,8 @@ export interface StepSnapshot {
   energy: number;
   correct: boolean;
   cellChanged: boolean[][];
+  /** Fast-weight color map after ingesting the active demos. Null on Settle. */
+  S: number[][] | null;
 }
 
 export function cloneGrid(g: Grid): Grid {
@@ -282,11 +284,13 @@ export function getTask(id: ToyKind): ToyTask {
 /**
  * Run the toy for r = 0..maxR inclusive.
  * r = 0 is the query (no latent step). Each increment is one actual update.
+ * demoMask[i] === false drops demonstration i from the Hebbian write.
  */
-export function runToy(task: ToyTask): StepSnapshot[] {
+export function runToy(task: ToyTask, demoMask?: boolean[]): StepSnapshot[] {
   const snaps: StepSnapshot[] = [];
   let state = cloneGrid(task.query);
-  const S = task.id === "settle" ? null : bindColorMap(task.demos);
+  const demos = task.demos.filter((_, i) => demoMask?.[i] !== false);
+  const S = task.id === "settle" ? null : bindColorMap(demos);
 
   for (let r = 0; r <= task.maxR; r++) {
     const decoded = cloneGrid(state);
@@ -299,6 +303,7 @@ export function runToy(task: ToyTask): StepSnapshot[] {
       energy,
       correct: gridsEqual(decoded, task.truth),
       cellChanged: r === 0 ? decoded.map((row) => row.map(() => false)) : changedMask(prev, decoded),
+      S,
     });
     if (r === task.maxR) break;
     if (task.id === "settle") {

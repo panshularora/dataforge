@@ -23,6 +23,7 @@ const NAV = [
 export default function Home() {
   return (
     <div className="shell">
+      <a href="#toy" className="skip">Skip to live toy</a>
       <header className="mast">
         <span>DataForge 2026 · Pathway track</span>
         <nav aria-label="Sections">
@@ -69,9 +70,32 @@ export default function Home() {
             ↓ Technical Blog (PDF)
           </a>
           <a href="https://github.com/panshularora/dataforge-2026-bdh-cq" target="_blank" rel="noreferrer" className="text-btn" style={{ textDecoration: "none" }}>
-            ↗ GitHub Repository
+            GitHub
           </a>
         </div>
+
+        <dl className="learner">
+          <div>
+            <dt>Audience</dt>
+            <dd>ML practitioners who know Transformers and have heard of o1-style token budgets.</dd>
+            <dt>Prerequisite</dt>
+            <dd>Attention as retrieval. ARC grids are explained in place.</dd>
+          </div>
+          <div>
+            <dt>After one minute</dt>
+            <dd>
+              You can say: extra R finishes an operator that is already local;
+              it cannot invent relocation; Table 5 is 21 / 27 / 29.5 at $0.0007;
+              Luna is more accurate and costlier.
+            </dd>
+            <dt>Falsify it</dt>
+            <dd>
+              Uncheck both Bind demos — S empties, the read fails. Open Compose —
+              R does not help. If HIGH had not beaten LOW, the published claim
+              would be false.
+            </dd>
+          </div>
+        </dl>
       </section>
 
       <section className="chapter" id="toy">

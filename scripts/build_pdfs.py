@@ -174,15 +174,56 @@ def build_summary(s):
         ),
         P("Comparators that actually matter", s["h"]),
         P(
-            "GPT-5.6 Luna (Low) is <b>more accurate</b> (34.2%) and, on the 4 Aug 2026 ARC Prize listing, "
-            "<b>57x costlier</b> at $0.040; after the 30 Jul 80% API cut the paper still reports ~11x. "
-            "HRM and TRM report strong ARC numbers via transductive optimization of the evaluation puzzle "
-            "(identity embeddings, augmentation, a backward pass) at $1.48 and $1.76 per task. BDH-CQ’s "
-            "claim is the in-context, no-backward-pass cost frontier — not a higher raw score than Luna, "
-            "and not the same protocol as HRM/TRM. Snell et al. (2024) is the right citation for "
-            "token-budget scaling laws; those MATH/GSM8K curves must not be drawn on the ARC plane.",
+            "Luna (Low) is <b>more accurate</b> (34.2%) and, on the 4 Aug 2026 listing, "
+            "<b>57x costlier</b> at $0.040 (~11x after the July cut). BDH-CQ’s claim is the "
+            "in-context cost frontier, not a new accuracy record. Snell et al. (2024) is the "
+            "token-budget citation; MATH/GSM8K curves do not belong on this ARC plane.",
             s["body"],
         ),
+    ]
+    cmp = [
+        [
+            P("<b></b>", s["li"]),
+            P("<b>CoT / o1</b>", s["li"]),
+            P("<b>HRM / TRM</b>", s["li"]),
+            P("<b>BDH-CQ</b>", s["li"]),
+        ],
+        [
+            P("Extra compute", s["li"]),
+            P("decoded tokens", s["li"]),
+            P("eval-task opt.", s["li"]),
+            P("latent H", s["li"]),
+        ],
+        [
+            P("Eval backward pass", s["li"]),
+            P("no", s["li"]),
+            P("yes", s["li"]),
+            P("no", s["li"]),
+        ],
+        [
+            P("This plane", s["li"]),
+            P("Luna 34.2% @ $0.040", s["li"]),
+            P("$1.48 / $1.76", s["li"]),
+            P("29.5% @ $0.0007", s["li"]),
+        ],
+    ]
+    ct = Table(cmp, colWidths=[32 * mm, 42 * mm, 38 * mm, 42 * mm])
+    ct.setStyle(
+        TableStyle(
+            [
+                ("GRID", (0, 0), (-1, -1), 0.3, RULE),
+                ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#e8e4d8")),
+                ("VALIGN", (0, 0), (-1, -1), "TOP"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 3),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 3),
+                ("TOPPADDING", (0, 0), (-1, -1), 3),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 3),
+            ]
+        )
+    )
+    story += [
+        ct,
+        Spacer(1, 6),
         P("Where it is weaker", s["h"]),
         P(
             "ConceptARC strict-task pass@2 is 59.4% while pair accuracy is 77.9%: many tasks are only "
