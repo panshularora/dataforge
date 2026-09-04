@@ -363,10 +363,14 @@ def write_pdf(path: Path, story):
 
 def main():
     s = styles()
-    write_pdf(ROOT / "concept_summary" / "concept_summary.pdf", build_summary(s))
-    write_pdf(ROOT / "blog" / "blog.pdf", build_blog(s))
-    print("wrote", ROOT / "concept_summary" / "concept_summary.pdf")
-    print("wrote", ROOT / "blog" / "blog.pdf")
+    summary_story = build_summary(s)
+    blog_story = build_blog(s)
+    write_pdf(ROOT / "concept_summary" / "concept_summary.pdf", summary_story)
+    write_pdf(ROOT / "public" / "concept_summary.pdf", summary_story)
+    write_pdf(ROOT / "blog" / "blog.pdf", blog_story)
+    write_pdf(ROOT / "public" / "blog.pdf", blog_story)
+    print("wrote concept_summary.pdf to concept_summary/ and public/")
+    print("wrote blog.pdf to blog/ and public/")
 
 
 if __name__ == "__main__":

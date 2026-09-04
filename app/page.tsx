@@ -60,6 +60,18 @@ export default function Home() {
             <span>parameters · not a 600B demo</span>
           </div>
         </div>
+
+        <div style={{ marginTop: "1.5rem", display: "flex", gap: "0.75rem", flexWrap: "wrap", alignItems: "center" }}>
+          <a href="/concept_summary.pdf" target="_blank" rel="noreferrer" className="text-btn" style={{ textDecoration: "none" }}>
+            ↓ 1-Page Summary (PDF)
+          </a>
+          <a href="/blog.pdf" target="_blank" rel="noreferrer" className="text-btn" style={{ textDecoration: "none" }}>
+            ↓ Technical Blog (PDF)
+          </a>
+          <a href="https://github.com/panshularora/dataforge-2026-bdh-cq" target="_blank" rel="noreferrer" className="text-btn" style={{ textDecoration: "none" }}>
+            ↗ GitHub Repository
+          </a>
+        </div>
       </section>
 
       <section className="chapter" id="toy">
