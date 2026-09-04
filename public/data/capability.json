@@ -1,0 +1,32 @@
+{
+  "_source": "arXiv:2608.09888 Tables 2 and 4, §6.3, Appendix A.2",
+  "conceptarc_strict_task_pass2_per_10": {
+    "FilledNotFilled": 9,
+    "TopBottom2D": 9,
+    "ExtendToBoundary": 8,
+    "CleanUp": 8,
+    "HorizontalVertical": 7,
+    "TopBottom3D": 7,
+    "ExtractObjects": 7,
+    "Center": 6,
+    "CompleteShape": 6,
+    "Count": 6,
+    "AboveBelow": 5,
+    "MoveToBoundary": 5,
+    "InsideOutside": 4,
+    "SameDifferent": 4,
+    "Copy": 2,
+    "Order": 2
+  },
+  "color_permutation_held_out": { "solved": 96, "total": 96 },
+  "composition_pass2_of_72": {
+    "relocation_alone": 72,
+    "rotation_plus_relocation": 72,
+    "reflection_plus_relocation": 47,
+    "color_swap_plus_relocation": 0
+  },
+  "generated_mechanics": {
+    "flood_fill": 0.686,
+    "gravity_and_stacking": 0.029
+  }
+}

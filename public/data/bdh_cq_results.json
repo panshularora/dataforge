@@ -1,37 +1,27 @@
 {
-  "_source": "BDH-CQ Technical Report (Pathway, 2025). Results on ARC-AGI evaluation set.",
-  "_note": "Precomputed from published paper results. Low/medium/high correspond to latent compute multipliers.",
-  "effort_levels": {
-    "low": {
-      "label": "Low Effort (1×)",
-      "latent_iterations": 1,
-      "arc_agi_accuracy": 0.53,
-      "relative_cost": 1.0,
-      "description": "Single forward pass through recurrent state. Equivalent to standard inference."
-    },
-    "medium": {
-      "label": "Medium Effort (4×)",
-      "latent_iterations": 4,
-      "arc_agi_accuracy": 0.72,
-      "relative_cost": 4.0,
-      "description": "Four latent recurrent iterations. No chain-of-thought tokens generated."
-    },
-    "high": {
-      "label": "High Effort (16×)",
-      "latent_iterations": 16,
-      "arc_agi_accuracy": 0.85,
-      "relative_cost": 16.0,
-      "description": "Sixteen latent iterations. Maximum latent compute budget tested."
-    }
+  "_source": "Engdahl et al., BDH-CQ: In-Context Learning with Recurrent Latent Reasoning, arXiv:2608.09888 (10 Aug 2026). Table 5 and §5.",
+  "_note": "No interpolation. Exact internal iteration counts are proprietary (§3.3). MEDIUM/LOW dollar costs are derived from Table 5 reduction percentages applied to the $0.00070 HIGH headline.",
+  "headline": {
+    "model": "BDH-CQ",
+    "params": "150M",
+    "split": "ARC-AGI-1 public evaluation",
+    "n_tasks": 400,
+    "pass_at_1": 0.2425,
+    "pass_at_2": 0.295,
+    "pass_at_2_count": 118,
+    "cost_usd_high": 0.0007,
+    "h200_seconds": 0.85,
+    "cot_tokens": 0
   },
-  "scaling_curve": [
-    { "iterations": 1,  "accuracy": 0.53, "cost": 1.0 },
-    { "iterations": 2,  "accuracy": 0.61, "cost": 2.0 },
-    { "iterations": 4,  "accuracy": 0.72, "cost": 4.0 },
-    { "iterations": 6,  "accuracy": 0.76, "cost": 6.0 },
-    { "iterations": 8,  "accuracy": 0.80, "cost": 8.0 },
-    { "iterations": 10, "accuracy": 0.82, "cost": 10.0 },
-    { "iterations": 12, "accuracy": 0.83, "cost": 12.0 },
-    { "iterations": 16, "accuracy": 0.85, "cost": 16.0 }
-  ]
+  "table_5": {
+    "LOW": { "pass_at_2": 0.21, "cost_reduction_vs_high": 0.22 },
+    "MEDIUM": { "pass_at_2": 0.27, "cost_reduction_vs_high": 0.11 },
+    "HIGH": { "pass_at_2": 0.295, "cost_reduction_vs_high": 0.0 }
+  },
+  "section_6_6": {
+    "note": "MIN vs STANDARD on the deployed system. Different protocol from Table 5.",
+    "min_solved": 111,
+    "standard_solved": 118,
+    "mcnemar_p": 0.167
+  }
 }
