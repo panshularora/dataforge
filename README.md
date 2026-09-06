@@ -8,7 +8,9 @@
 **Primary source:** Engdahl et al., "BDH-CQ: In-Context Learning with Recurrent Latent Reasoning", arXiv:2608.09888, 10 Aug 2026.
 
 **Live demo:** [https://dataforge-virid-delta.vercel.app](https://dataforge-virid-delta.vercel.app)  
-**Source code:** [https://github.com/panshularora/dataforge](https://github.com/panshularora/dataforge)
+**Source code:** [https://github.com/panshularora/dataforge](https://github.com/panshularora/dataforge)  
+**One-page concept summary (PDF):** [concept_summary/concept_summary.pdf](concept_summary/concept_summary.pdf)  
+**Technical blog (PDF):** [blog/blog.pdf](blog/blog.pdf)
 
 ---
 

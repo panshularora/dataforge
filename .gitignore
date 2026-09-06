@@ -42,3 +42,5 @@ next-env.d.ts
 
 # local PDF raster previews
 scripts/_pdf_preview/
+
+.vercel
