@@ -7,7 +7,7 @@
 
 **Primary source:** Engdahl et al., "BDH-CQ: In-Context Learning with Recurrent Latent Reasoning", arXiv:2608.09888, 10 Aug 2026.
 
-**Live demo:** run `npm run dev` (public Vercel URL goes here after `npx vercel --prod`)  
+**Live demo:** [https://dataforge-virid-delta.vercel.app](https://dataforge-virid-delta.vercel.app)  
 **Source code:** [https://github.com/panshularora/dataforge](https://github.com/panshularora/dataforge)
 
 ---

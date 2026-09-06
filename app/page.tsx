@@ -72,6 +72,9 @@ export default function Home() {
           <a href="https://github.com/panshularora/dataforge" target="_blank" rel="noreferrer" className="text-btn" style={{ textDecoration: "none" }}>
             GitHub
           </a>
+          <a href="https://dataforge-virid-delta.vercel.app" target="_blank" rel="noreferrer" className="text-btn" style={{ textDecoration: "none" }}>
+            Live
+          </a>
         </div>
 
         <dl className="learner">
