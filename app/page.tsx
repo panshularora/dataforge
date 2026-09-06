@@ -69,7 +69,7 @@ export default function Home() {
           <a href="/blog.pdf" target="_blank" rel="noreferrer" className="text-btn" style={{ textDecoration: "none" }}>
             ↓ Technical Blog (PDF)
           </a>
-          <a href="https://github.com/panshularora/dataforge-2026-bdh-cq" target="_blank" rel="noreferrer" className="text-btn" style={{ textDecoration: "none" }}>
+          <a href="https://github.com/panshularora/dataforge" target="_blank" rel="noreferrer" className="text-btn" style={{ textDecoration: "none" }}>
             GitHub
           </a>
         </div>

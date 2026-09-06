@@ -7,8 +7,8 @@
 
 **Primary source:** Engdahl et al., "BDH-CQ: In-Context Learning with Recurrent Latent Reasoning", arXiv:2608.09888, 10 Aug 2026.
 
-**Live demo:** [https://inference-scaling-explainer.vercel.app](https://inference-scaling-explainer.vercel.app) *(or your deployment URL)*  
-**Source code:** [https://github.com/panshularora/dataforge-2026-bdh-cq](https://github.com/panshularora/dataforge-2026-bdh-cq)
+**Live demo:** run `npm run dev` (public Vercel URL goes here after `npx vercel --prod`)  
+**Source code:** [https://github.com/panshularora/dataforge](https://github.com/panshularora/dataforge)
 
 ---
 
@@ -77,8 +77,8 @@ lib/
 ## 🚀 Setup & Reproduction
 
 ```bash
-git clone https://github.com/panshularora/dataforge-2026-bdh-cq.git
-cd dataforge-2026-bdh-cq
+git clone https://github.com/panshularora/dataforge.git
+cd dataforge
 npm install
 npm run dev        # http://localhost:3000
 npm run build      # production build
