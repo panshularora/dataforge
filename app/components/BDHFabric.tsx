@@ -182,6 +182,24 @@ export default function BDHFabric() {
             <td>Optimization path</td>
             <td>None (latent)</td>
           </tr>
+          <tr>
+            <td>Latency profile</td>
+            <td>High (sequential token-by-token decode)</td>
+            <td>Very high (multi-step test optimization)</td>
+            <td>Low (0.85s H200 total; parallel recurrence)</td>
+          </tr>
+          <tr>
+            <td>Cost per task</td>
+            <td>$0.01 – $0.04+ (Luna $0.040)</td>
+            <td>$1.48 – $1.76</td>
+            <td>$0.0007 (HIGH)</td>
+          </tr>
+          <tr>
+            <td>ARC-AGI-1 accuracy</td>
+            <td>34.2% pass@2 (Luna Low)</td>
+            <td>~32–45% (transductive voting)</td>
+            <td>29.5% pass@2 (HIGH, in-context)</td>
+          </tr>
         </tbody>
       </table>
       <p className="paper-note">

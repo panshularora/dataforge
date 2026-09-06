@@ -189,6 +189,13 @@ export default function Home() {
             otherwise.
           </p>
           <p>
+            <strong>Maturity assessment: 4/10.</strong> Demonstrates an ultra-low-cost ($0.0007)
+            in-context baseline on ARC-AGI-1 and reported 1B–600B pretraining scaling with
+            Amazon SageMaker HyperPod integration. The largest remaining gaps are: (1) proprietary
+            update operators; (2) unobservable latent states; (3) failure to compose operators
+            that were not bound during demonstration ingestion.
+          </p>
+          <p>
             <strong>Sixty-second test.</strong> Open the live toy on Settle. Scrub
             R from 0 to 2. Unsupported masses go to zero and the grid matches
             truth — still 0 tokens. Switch to Compose. Scrub to R = 4. It stays

@@ -52,15 +52,22 @@ These are not edge cases discovered post-hoc — they are published by the autho
 
 ## Situating BDH-CQ
 
-Three approaches to inference-time scaling on ARC-AGI-1 differ structurally:
+| Approach | Extra compute | Eval backward pass | Latency & Cost | ARC-AGI-1 pass@2 |
+|---|---|---|---|---|
+| CoT / token-budget | Decoded tokens | No | High / $0.040 | 34.2% (Luna Low) |
+| HRM / TRM | Per-puzzle optimization | **Yes** | Very high / $1.50+ | ~32–45% (transductive) |
+| BDH-CQ | Latent iterations of H | No | Low (0.85s) / **$0.0007** | **29.5%** (HIGH, in-context) |
 
-| Approach | Extra compute goes to | Eval-task backward pass | Evidence |
-|---|---|---|---|
-| CoT / token-budget | Decoded token stream | No | Wei et al. 2022; Snell et al. 2024 |
-| HRM / TRM | Per-puzzle optimization | **Yes** | Wang et al. 2025; Jolicoeur-Martineau 2025 |
-| BDH-CQ | Latent iterations of H | No | Engdahl et al. 2026 |
+---
 
-Geiping et al. (arXiv:2502.05171) explore recurrent-depth latent scaling from a different architectural starting point; CoCoNuT (Hao et al., arXiv:2412.06769) trains LLMs to reason in continuous thought. BDH-CQ's distinguishing commitment is brain-inspired sparsity in the base BDH architecture (~5% active neurons, Hebbian synaptic writes, GPU-friendly ReLU-low-rank + linear-attention formulation) combined with demonstration-conditioned in-context reasoning without any weight update.
+## Maturity Assessment: 4/10 and Largest Gaps
+
+We assess BDH-CQ's maturity as an architecture-native reasoning system at **4/10**:
+- **Demonstrated advantages:** Verified 150M in-context solver on ARC-AGI-1 at ultra-low cost ($0.0007/task), constant-size memory footprint, and reported early pretraining scaling from 1B to 600B parameters with Amazon SageMaker HyperPod integration.
+- **Largest remaining gaps:**
+  1. *Proprietary operators:* $U_\theta$ and $F_\theta$ remain undisclosed, precluding independent replication from the paper alone.
+  2. *Zero observability:* Latent states cannot be inspected like a token transcript when failures occur.
+  3. *Unbound primitives:* Extra latent compute cannot invent operators that were not bound during demonstration ingestion (e.g. 0/72 on color-swap + relocation).
 
 ---
 

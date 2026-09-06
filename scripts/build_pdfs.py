@@ -201,10 +201,10 @@ def build_summary(s):
             P("no", s["li"]),
         ],
         [
-            P("This plane", s["li"]),
-            P("Luna 34.2% @ $0.040", s["li"]),
-            P("$1.48 / $1.76", s["li"]),
-            P("29.5% @ $0.0007", s["li"]),
+            P("Latency & cost", s["li"]),
+            P("high / $0.040", s["li"]),
+            P("very high / $1.5+", s["li"]),
+            P("0.85s / $0.0007", s["li"]),
         ],
     ]
     ct = Table(cmp, colWidths=[32 * mm, 42 * mm, 38 * mm, 42 * mm])
@@ -234,13 +234,12 @@ def build_summary(s):
             "protocol, not a proven one-checkpoint slider.",
             s["body"],
         ),
-        P("Maturity and the limitation to keep", s["h"]),
+        P("Maturity assessment (4/10) and key gaps", s["h"]),
         P(
-            "Early BDH pretraining is reported from 1B to 600B with Transformer-like scaling; that is not "
-            "the 150M ARC system. AWS/SageMaker integration is a deployment partnership, not an independent "
-            "scientific evaluation. Latent effort only refines an operator the memory already bound. More R "
-            "will not invent a missing composition. Observability is the other tax: when HIGH fails, there "
-            "is no chain of thought to read.",
+            "Maturity rating: <b>4/10</b>. Strengths: verified 150M in-context solver ($0.0007/task), "
+            "constant memory, reported 1B–600B pretraining on AWS SageMaker HyperPod. Gaps: (1) Proprietary "
+            "U_theta / F_theta; (2) Unobservable latent states; (3) Missing compositions (0/72 color+move); "
+            "more R cannot invent unbound operators.",
             s["body"],
         ),
         P(
