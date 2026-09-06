@@ -401,14 +401,16 @@ def write_pdf(path: Path, story):
     doc.build(story, onFirstPage=header_footer, onLaterPages=header_footer)
 
 
+import shutil
+
 def main():
     s = styles()
-    summary_story = build_summary(s)
-    blog_story = build_blog(s)
-    write_pdf(ROOT / "concept_summary" / "concept_summary.pdf", summary_story)
-    write_pdf(ROOT / "public" / "concept_summary.pdf", summary_story)
-    write_pdf(ROOT / "blog" / "blog.pdf", blog_story)
-    write_pdf(ROOT / "public" / "blog.pdf", blog_story)
+    sum_pdf = ROOT / "concept_summary" / "concept_summary.pdf"
+    blog_pdf = ROOT / "blog" / "blog.pdf"
+    write_pdf(sum_pdf, build_summary(s))
+    write_pdf(blog_pdf, build_blog(s))
+    shutil.copyfile(sum_pdf, ROOT / "public" / "concept_summary.pdf")
+    shutil.copyfile(blog_pdf, ROOT / "public" / "blog.pdf")
     print("wrote concept_summary.pdf to concept_summary/ and public/")
     print("wrote blog.pdf to blog/ and public/")
 
